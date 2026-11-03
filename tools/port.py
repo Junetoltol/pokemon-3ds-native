@@ -3,6 +3,8 @@
 import argparse
 import hashlib
 import json
+import os
+import shutil
 from pathlib import Path
 import subprocess
 import sys
@@ -63,8 +65,20 @@ def main():
     if out.exists(): raise ValueError('output exists; preserve it or choose a fresh private workspace')
     out.parent.mkdir(parents=True,exist_ok=True)
     subprocess.run(command,check=True)
+    # Bind transitive Git dependencies to the same reviewed local checkouts.
+    patch='\n[patch."https://github.com/fearkov/3dsrecomp"]\n'
+    for name, path in [('recomp3ds', args.recompiler.resolve()), ('recomp-abi', args.recompiler.resolve()/'abi')]:
+        patch += name + ' = { path = ' + json.dumps(str(path)) + ' }\n'
+    with (out/'Cargo.toml').open('a') as manifest:
+        manifest.write(patch)
+    # Seed the reviewed runtime dependency versions before resolving this new root.
+    shutil.copyfile(args.zakuro.resolve()/'Cargo.lock', out/'Cargo.lock')
     cargo=PRIVATE/'cargo'/'bin'/('cargo.exe' if sys.platform=='win32' else 'cargo')
-    subprocess.run([str(cargo) if cargo.exists() else 'cargo','build','--release'],cwd=out,check=True)
+    env=os.environ.copy()
+    if cargo.exists():
+        env.update(CARGO_HOME=str(PRIVATE/'cargo'), RUSTUP_HOME=str(PRIVATE/'rustup'))
+        env['PATH']=str(cargo.parent)+os.pathsep+env.get('PATH','')
+    subprocess.run([str(cargo) if cargo.exists() else 'cargo','build','--release'],cwd=out,env=env,check=True)
     (out/'local-input.json').write_text(json.dumps(info|{'version_declared':args.version,'version_verified':False},indent=2))
 
 if __name__=='__main__':
