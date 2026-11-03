@@ -8,7 +8,7 @@
 - Private local port driver: expected SHA-256/program-ID checks, pinned clean upstream checkout checks, user-declared version explicitly unverified, generation/build commands.
 - Unique save import backups with copy hash verification. No live game/save integration.
 - macOS bundle dependency packaging and ad-hoc signing; Windows DLL copy rules.
-- CI definition for macOS ARM64 and Windows x64 builds/tests.
+- CI definition for macOS ARM64 and Windows x64 builds/tests. Both passed in [run 41555949934](https://github.com/Junetoltol/pokemon-3ds-native/actions/runs/41555949934), tested source commit `ced54fdeebc486dfc7e911f572187e9fd78345c7`.
 
 ## 빌드 검증 완료
 
@@ -17,6 +17,7 @@
 - Local project-only Rust stable 1.99.1 installed without modifying shell profiles.
 - 3dsrecomp pinned revision: release build succeeded; 62 unit tests + 1 doc test passed.
 - Zakuro pinned revision: `cargo build --release --locked -p zakuro` succeeded (75 seconds). Dependency `block 0.1.6` reports a future Rust incompatibility warning.
+- Windows x64 `.exe` + SDL3 DLL: GitHub Windows 2022 runner build succeeded; all three CTest entries passed, including headless mock execution. Windows interactive GUI and game execution remain unverified.
 - Self-authored return-only synthetic NCCH: upstream `port` generated C, compiled static archive, and generated a local Cargo project. That project also linked successfully into a native ARM64 executable with the reviewed local sources (not executed as a game). No retail input used.
 
 ## 실행 검증 완료
@@ -29,7 +30,7 @@
 ## 미검증
 
 - Pokémon Y retail conversion, boot, field/battle/event correctness, game-specific 60 FPS patches, real 2×/4×/8× speed, audio, save/load and stability.
-- All other seven games; Windows build/execution until hosted CI completes; controller/touch game input.
+- All other seven games; Windows interactive GUI and retail runtime execution; controller/touch game input.
 - Trusted regional/version manifests and independent version certification. Current hash checks only match caller-provided values.
 - Runtime ABI integration and game-specific settings persistence; the current interface is C++ and mock stepping only.
 - Actual game benchmarks, performance percentile logging, unattended retail test harness, notarized distribution.
