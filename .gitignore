@@ -1,0 +1,13 @@
+/build*/
+/private/
+/vendor/
+/dist/
+*.3ds
+*.cia
+*.cci
+*.cxi
+*.rom
+*.sav
+*.bin
+*.keys
+__pycache__/

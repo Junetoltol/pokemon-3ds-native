@@ -1,0 +1,25 @@
+name: launcher-build
+on: [push, pull_request, workflow_dispatch]
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [macos-14, windows-2022]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: libsdl-org/setup-sdl@main
+        with:
+          version: 3.2.30
+      - run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+      - run: cmake --build build --config Release
+      - run: ctest --test-dir build -C Release --output-on-failure
+      - if: runner.os == 'macOS'
+        run: python3 tools/package_macos.py build/pokemon-3ds-native.app dist/pokemon-3ds-native.app
+      - uses: actions/upload-artifact@v4
+        with:
+          name: launcher-${{ matrix.os }}
+          path: |
+            dist/*.app
+            build/Release/*.exe
+            build/Release/*.dll
