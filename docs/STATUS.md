@@ -17,13 +17,13 @@
 - Local project-only Rust stable 1.99.1 installed without modifying shell profiles.
 - 3dsrecomp pinned revision: release build succeeded; 62 unit tests + 1 doc test passed.
 - Zakuro pinned revision: `cargo build --release --locked -p zakuro` succeeded (75 seconds). Dependency `block 0.1.6` reports a future Rust incompatibility warning.
-- Self-authored return-only synthetic NCCH: upstream `port` generated C, compiled static archive, and generated a local Cargo project. No retail input used.
+- Self-authored return-only synthetic NCCH: upstream `port` generated C, compiled static archive, and generated a local Cargo project. That project also linked successfully into a native ARM64 executable with the reviewed local sources (not executed as a game). No retail input used.
 
 ## 실행 검증 완료
 
 - Launcher SDL3 Metal window loop: 30 frames, clean exit. Packaged app also completed a 30-frame Metal window smoke run.
 - Headless mock: 600 display frames at 60 FPS / 8× produced 2400 synthetic ticks.
-- CTest: runtime-contract and local-tools passed. Runtime checks cover 30/60 × 1/2/4/8; tool tests cover header rejection and non-overwriting backups.
+- CTest: runtime-contract, local-tools and mock-launcher passed. Runtime checks cover 30/60 × 1/2/4/8; tool tests cover header rejection and non-overwriting backups.
 - Real-game launch deliberately exits with status 3 rather than using a fake game screen.
 
 ## 미검증
