@@ -1,4 +1,6 @@
-# Development evidence — 2026-11-03
+# Development evidence
+
+Updated 2026-11-09: Ultra Sun has now been converted, built for ARM64, and visually reached language selection. See [retail-input evidence](2026-11-09-ultra-sun.md). The original 2026-11-03 mock milestone follows below; its Y-specific pending items are retained as historical scope.
 
 ## 실제 구현 완료
 
@@ -37,7 +39,7 @@
 
 ## 기술적 장애
 
-- No user-owned Y dump is available. User will prepare one; no game input is downloaded or fabricated.
+- No Y dump is available. On 2026-11-09 the user supplied other titles; Ultra Sun CCI is now the active first experiment. No game input was downloaded by this project.
 - A decrypted NCSD `.3ds`/`.cci` base-game dump is preferred for first Y test; include known region, language and version. The header also supports standalone NCCH `.cxi`. CIA is intentionally rejected by this wrapper.
 - No Pokémon performance or compatibility claim can be made from synthetic tests or an upstream build.
 

@@ -11,3 +11,5 @@
 *.bin
 *.keys
 __pycache__/
+/cia/
+.DS_Store
