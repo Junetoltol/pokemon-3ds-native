@@ -5,10 +5,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-14, windows-2022]
+        os: [macos-15, windows-2022]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
+      - if: runner.os == 'macOS'
+        run: test "$(uname -m)" = arm64
       - uses: libsdl-org/setup-sdl@main
         with:
           version: 3.2.30
